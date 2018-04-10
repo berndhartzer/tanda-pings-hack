@@ -3,6 +3,6 @@
     "vendor-dir": "../vendor"
   },
   "require": {
-    "facebook/hack-router": "^0.13"
+    "usox/sharesta": "v2.0.2"
   }
 }
