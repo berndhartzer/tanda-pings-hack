@@ -2,6 +2,9 @@ FROM hhvm/hhvm-proxygen:latest
 
 RUN apt-get update -y && apt-get install -y curl
 
+# Install sqlite3
+RUN apt-get install -y sqlite3 libsqlite3-dev
+
 # Install composer
 RUN mkdir /opt/composer
 RUN curl -sS https://getcomposer.org/installer | hhvm --php -- --install-dir=/opt/composer
