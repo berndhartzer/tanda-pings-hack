@@ -15,6 +15,10 @@ ADD . /var/www
 RUN cd /var/www && hhvm /opt/composer/composer.phar install
 RUN cd /var/www && hhvm /opt/composer/composer.phar require hhvm/hhvm-autoload
 
+# Create db
+RUN mkdir /var/db
+RUN cd /var/db && sqlite3 -init /var/www/createdb.sql db.sqlite
+
 # Reconfigure HHVM
 # ADD hhvm.prod.ini /etc/hhvm/site.ini
 
