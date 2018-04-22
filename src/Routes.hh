@@ -43,7 +43,10 @@ class Routes implements RoutesInterface {
     });
 
     $router->get('/devices', (RequestInterface $request): \JsonSerializable ==> {
-      return new \Pings\Handlers\DevicesHandler();
+      $response = new \Pings\Handlers\DevicesHandler();
+      $response->handle();
+      return $response;
+      // return new \Pings\Handlers\DevicesHandler();
     });
 
     $router->post('/:device_id/:epoch_time', (RequestInterface $request): \JsonSerializable ==> {
