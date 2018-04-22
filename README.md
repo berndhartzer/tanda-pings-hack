@@ -6,6 +6,10 @@ I took the opportunity while creating my solution to use HHVM, Hack and SQLite b
 
 hard to find info on hack, kept bouncing between same few repos and docs, seemed like a lot of implied knowledge etc. here
 
+The reason for using Docker was to see if I could set up a workflow where I could fully develop and run an application without installing any of the applications dependencies on my local machine.
+
+caveats about docker approach e.g. how/why i moved the vendor directory up a level
+
 ## The solution
 
 how I made it, why I used docker, benefits etc.
