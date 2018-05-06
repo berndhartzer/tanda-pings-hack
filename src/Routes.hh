@@ -26,6 +26,16 @@ class Routes implements RoutesInterface {
       return $route;
     });
 
+    $router->get('/all/:date', (RequestInterface $request): \JsonSerializable ==> {
+      $response = new \Pings\Handlers\AllHandler($request);
+      $response->handle();
+      return $response;
+    });
+
+    $router->get('/all/:from/:to', (RequestInterface $request): \JsonSerializable ==> {
+      return new \Pings\Handlers\HomeHandler();
+    });
+
     $router->get('/:device_id/:date', (RequestInterface $request): \JsonSerializable ==> {
       $response = new \Pings\Handlers\DeviceHandler($request);
       $response->handle();
@@ -36,14 +46,6 @@ class Routes implements RoutesInterface {
       $response = new \Pings\Handlers\DeviceHandler($request);
       $response->handle();
       return $response;
-    });
-
-    $router->get('/all/:date', (RequestInterface $request): \JsonSerializable ==> {
-      return new \Pings\Handlers\HomeHandler();
-    });
-
-    $router->get('/all/:from/:to', (RequestInterface $request): \JsonSerializable ==> {
-      return new \Pings\Handlers\HomeHandler();
     });
 
     $router->get('/devices', (RequestInterface $request): \JsonSerializable ==> {
