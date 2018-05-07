@@ -130,7 +130,6 @@ class PingHandler implements \JsonSerializable {
   public function jsonSerialize(): Map<string, string> {
     return $this->response;
   }
-
 }
 
 class ClearHandler implements \JsonSerializable {
