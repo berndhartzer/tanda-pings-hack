@@ -79,10 +79,10 @@ class DeviceHandler implements \JsonSerializable {
   public function handle(): void {
 
     $query_params = Map {
-    ':device_id' => $this->device_id,
+      ':device_id' => $this->device_id,
       ':time_from' => $this->time_from,
       ':time_to' => $this->time_to
-  };
+    };
 
     $db = new Db();
 
@@ -115,25 +115,27 @@ class AllHandler implements \JsonSerializable {
 
     $this->response = new Map();
 
-    /*
-    $this->time_from = strtotime($request->getRouteParameters()->get('date'));
-    $this->time_to = strtotime('+1 day', $this->time_from);
-     */
+    if (isset($request->getRouteParameters()->get('date'))) {
 
+      $this->time_from = strtotime($request->getRouteParameters()->get('date'));
+      $this->time_to = strtotime('+1 day', $this->time_from);
+
+    } else if (isset($request->getRouteParameters()->get('from'))) {
+
+      $from = $request->getRouteParameters()->get('from');
+      $to = $request->getRouteParameters()->get('to');
+
+      $this->time_from = $this->dateIsTimestamp($from) ? $from : strtotime($from);
+      $this->time_to = $this->dateIsTimestamp($to) ? $to : strtotime($to);
+    }
 
   }
 
   public function handle(): void {
 
-    $this->response['key-one'] = new Vector();
-
-    $this->response['key-one']->add(111);
-    $this->response['key-one']->add(112);
-
-    /*
     $query_params = Map {
-        ':time_from' => $this->time_from,
-        ':time_to' => $this->time_to
+      ':time_from' => $this->time_from,
+      ':time_to' => $this->time_to
     };
 
     $db = new Db();
@@ -141,14 +143,22 @@ class AllHandler implements \JsonSerializable {
     $stmt = $db->query('SELECT device_id, timestamp FROM pings WHERE timestamp >= :time_from AND timestamp < :time_to', $query_params);
 
     while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-      $this->response->add((int)$row['timestamp']);
+
+      if (!isset($this->response[$row['device_id']])) {
+        $this->response[$row['device_id']] = new Vector();
+      }
+
+      $this->response[$row['device_id']]->add((int)$row['timestamp']);
     }
-     */
 
   }
 
   public function jsonSerialize(): Map<string, Vector> {
     return $this->response;
+  }
+
+  private function dateIsTimestamp(string $date): Boolean {
+    return is_numeric($date);
   }
 
 }
@@ -194,9 +204,9 @@ class PingHandler implements \JsonSerializable {
   public function handle(): void {
 
     $query_params = Map {
-    ':device_id' => $this->device_id,
+      ':device_id' => $this->device_id,
       ':timestamp' => $this->epoch_time
-  };
+    };
 
     $db = new Db();
     $db->query('INSERT INTO pings (device_id, timestamp) VALUES (:device_id, :timestamp)', $query_params);

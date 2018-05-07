@@ -16,7 +16,6 @@ class Db {
     $stmt = $this->db->prepare($query);
 
     if ($params !== null) {
-
       foreach ($params as $key => $value) {
         $stmt->bindValue($key, $value);
       }

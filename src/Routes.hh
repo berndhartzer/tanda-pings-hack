@@ -33,7 +33,9 @@ class Routes implements RoutesInterface {
     });
 
     $router->get('/all/:from/:to', (RequestInterface $request): \JsonSerializable ==> {
-      return new \Pings\Handlers\HomeHandler();
+      $response = new \Pings\Handlers\AllHandler($request);
+      $response->handle();
+      return $response;
     });
 
     $router->get('/:device_id/:date', (RequestInterface $request): \JsonSerializable ==> {
