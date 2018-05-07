@@ -10,22 +10,6 @@ class Routes implements RoutesInterface {
 
   public function registerRoutes(RouterInterface $router): void {
 
-    $router->get('/', (RequestInterface $request): \JsonSerializable ==> {
-      return new \Pings\Handlers\HomeHandler();
-    });
-
-    $router->get('/get_some/:id', (RequestInterface $request): \JsonSerializable ==> {
-      $route = new \Pings\Handlers\GetSomeIdHandler($request);
-      $route->doSomething();
-      return $route;
-    });
-
-    $router->get('/something', (RequestInterface $request): \JsonSerializable ==> {
-      $route = new \Pings\Handlers\SomeNewHandler();
-      $route->handle();
-      return $route;
-    });
-
     $router->get('/all/:date', (RequestInterface $request): \JsonSerializable ==> {
       $response = new \Pings\Handlers\AllHandler($request);
       $response->handle();
