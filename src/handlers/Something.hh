@@ -5,6 +5,32 @@ namespace Pings\Handlers;
 use Usox\Sharesta\RequestInterface;
 use Pings\Db\Db;
 
+class Devices {
+
+  public function __construct(): void {
+
+  }
+
+  public function getDevices(): Set<string> {
+
+    $devices = new Set();
+
+    $db = new Db();
+    $stmt = $db->query('SELECT DISTINCT device_id FROM pings');
+
+    while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+      $devices->add($row['device_id']);
+    }
+
+    return $devices;
+  }
+
+  public function getDeviceTimestamps(): void {
+
+  }
+
+}
+
 class DeviceHandler implements \JsonSerializable {
 
   private string $device_id;
@@ -43,7 +69,6 @@ class DeviceHandler implements \JsonSerializable {
 
     $db = new Db();
 
-    /* $stmt = $db->query('SELECT timestamp FROM pings WHERE device_id = :device_id AND timestamp BETWEEN :time_from AND :time_to', $query_params); */
     $stmt = $db->query('SELECT timestamp FROM pings WHERE device_id = :device_id AND timestamp >= :time_from AND timestamp < :time_to', $query_params);
 
     while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -129,14 +154,8 @@ class DevicesHandler implements \JsonSerializable {
   }
 
   public function handle(): void {
-
-    $db = new Db();
-    $stmt = $db->query('SELECT DISTINCT device_id FROM pings');
-
-    while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-      $this->response->add($row['device_id']);
-    }
-
+    $devices = new Devices();
+    $this->response = $devices->getDevices();
   }
 
   public function jsonSerialize(): Set<string> {
@@ -179,7 +198,6 @@ class PingHandler implements \JsonSerializable {
 class ClearHandler implements \JsonSerializable {
 
   public function handle(): void {
-
     $db = new Db();
     $db->query('DELETE FROM pings');
   }
