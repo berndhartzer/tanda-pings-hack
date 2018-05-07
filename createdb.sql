@@ -1,4 +1,4 @@
 CREATE TABLE pings (
- device_id INTEGER,
- timestamp TEXT
+ device_id TEXT,
+ timestamp INTEGER
 );
