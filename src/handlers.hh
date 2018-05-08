@@ -18,15 +18,11 @@ class DeviceHandler implements \JsonSerializable {
     $this->device_id = $request->getRouteParameters()->get('device_id');
 
     if (isset($request->getRouteParameters()->get('date'))) {
-
       $this->from = $request->getRouteParameters()->get('date');
       $this->to = null;
-
     } else if (isset($request->getRouteParameters()->get('from'))) {
-
       $this->from = $request->getRouteParameters()->get('from');
       $this->to = $request->getRouteParameters()->get('to');
-
     }
   }
 
@@ -60,17 +56,12 @@ class AllHandler implements \JsonSerializable {
     $this->response = new Map();
 
     if (isset($request->getRouteParameters()->get('date'))) {
-
       $this->from = $request->getRouteParameters()->get('date');
       $this->to = null;
-
     } else if (isset($request->getRouteParameters()->get('from'))) {
-
       $this->from = $request->getRouteParameters()->get('from');
       $this->to = $request->getRouteParameters()->get('to');
-
     }
-
   }
 
   public function handle(): void {

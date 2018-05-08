@@ -33,7 +33,7 @@ class Devices {
     return $this->getDevicePings($device_id, $time_from, $time_to);
   }
 
-  public function getDevicePingsInRange($device_id, $from, $to): void {
+  public function getDevicePingsInRange($device_id, $from, $to): Vector<int> {
 
     $time_from = $this->dateIsTimestamp($from) ? $from : strtotime($from);
     $time_to = $this->dateIsTimestamp($to) ? $to : strtotime($to);
