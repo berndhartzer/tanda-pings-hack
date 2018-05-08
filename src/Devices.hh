@@ -6,16 +6,17 @@ use Pings\Db\Db;
 
 class Devices {
 
-  public function __construct(): void {
+  private Db $db;
 
+  public function __construct(): void {
+    $this->db = new Db();
   }
 
   public function getDevices(): Set<string> {
 
     $devices = new Set();
 
-    $db = new Db();
-    $stmt = $db->query('SELECT DISTINCT device_id FROM pings');
+    $stmt = $this->db->query('SELECT DISTINCT device_id FROM pings');
 
     while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
       $devices->add($row['device_id']);
@@ -63,15 +64,13 @@ class Devices {
       ':timestamp' => $timestamp
     };
 
-    $db = new Db();
-    $db->query('INSERT INTO pings (device_id, timestamp) VALUES (:device_id, :timestamp)', $query_params);
+    $this->db->query('INSERT INTO pings (device_id, timestamp) VALUES (:device_id, :timestamp)', $query_params);
 
     return $query_params;
   }
 
   public function deleteAllPings(): void {
-    $db = new Db();
-    $db->query('DELETE FROM pings');
+    $this->db->query('DELETE FROM pings');
   } 
 
   private function getDevicePings($device_id, $time_from, $time_to): Vector<int> {
@@ -84,9 +83,7 @@ class Devices {
       ':time_to' => $time_to
     };
 
-    $db = new Db();
-
-    $stmt = $db->query('SELECT timestamp FROM pings WHERE device_id = :device_id AND timestamp >= :time_from AND timestamp < :time_to', $query_params);
+    $stmt = $this->db->query('SELECT timestamp FROM pings WHERE device_id = :device_id AND timestamp >= :time_from AND timestamp < :time_to', $query_params);
 
     while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
       $pings->add((int)$row['timestamp']);
@@ -104,9 +101,7 @@ class Devices {
       ':time_to' => $time_to
     };
 
-    $db = new Db();
-
-    $stmt = $db->query('SELECT device_id, timestamp FROM pings WHERE timestamp >= :time_from AND timestamp < :time_to', $query_params);
+    $stmt = $this->db->query('SELECT device_id, timestamp FROM pings WHERE timestamp >= :time_from AND timestamp < :time_to', $query_params);
 
     while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
