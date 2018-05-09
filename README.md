@@ -1,23 +1,34 @@
 # Tanda pings challenge
 
-This is a solution to [Tanda's pings challenge](https://github.com/TandaHQ/work-samples/tree/master/pings%20(backend) using [HHVM](https://hhvm.com/), [Hack](http://hacklang.org/), [Docker](https://www.docker.com/), [SQLite](https://www.sqlite.org/) and other technologies here ~~~.
+This is a solution to [Tanda's pings challenge](https://github.com/TandaHQ/work-samples/tree/master/pings%20(backend) using [HHVM](https://hhvm.com/), [Hack](http://hacklang.org/), [Docker](https://www.docker.com/), and [SQLite](https://www.sqlite.org/).
 
-I took the opportunity while creating my solution to use HHVM, Hack and SQLite because I hadn't used any of them before. The HHVM/Hack ecosystem has always intrigued me as I spend a lot of time writing PHP. I was interested to see how much of my PHP knowledge was transferable to Hack and what kind of performance impact it would have.
+For this solution I decided to use HHVM, Hack and SQLite because they were all technologies I hadn't worked with before. The HHVM/Hack ecosystem has always intrigued me as I spend a lot of time writing PHP. I was interested to see how much of my PHP knowledge was transferable to Hack and to get a feel for HHVM, which is [diverging from it's PHP roots](https://hhvm.com/blog/2017/09/18/the-future-of-hhvm.html).
 
-hard to find info on hack, kept bouncing between same few repos and docs, seemed like a lot of implied knowledge etc. here
+## My solution
 
-The reason for using Docker was to see if I could set up a workflow where I could fully develop and run an application without installing any of the applications dependencies on my local machine.
-
-caveats about docker approach e.g. how/why i moved the vendor directory up a level
-
-## The solution
-
-how I made it, why I used docker, benefits etc.
+One of my goals for this was to set up a workflow with docker which allowed me fully develop and run an application without installing any application dependencies on my machine. I was able to achieve this by changing some [Composer](https://getcomposer.org/) defaults, like changing the dependency installation directory (see `composer.json` and `public/index.php`). By doing this the dependencies were retrieved and installed when building the Docker image, and wouldn't be overridden when mounting the application files for development. This slightly impractical approach came with it's own caveats; such as having to build a new Docker image every time I wanted to install a new package (thankfully for this project that was rarely needed).
 
 ## Run solution
 
-steps on how to start the app and run the tests here
+all in one script here
 
 ## Development
 
-steps on mounting the app to the docker container for development here
+To develop this application locally, first you need to use the `Dockerfile` to build a Docker image:
+
+```bash
+# Run command from application root
+$ docker build .
+```
+
+Once the image has been created, use the image id to run a Docker container with the local application files mounted:
+
+```bash
+$ docker run -v $(pwd):/var/www -d -p 3000:80 <image_id>
+```
+
+While thats running you can edit the application files (in `src/` and `public/`) using your favourite editor, IDE or tools. When you're finished you can stop running the container with:
+
+```bash
+$ docker stop <container_id>
+```
