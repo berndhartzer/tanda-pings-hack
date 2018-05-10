@@ -1,6 +1,6 @@
 # Tanda pings challenge
 
-This is a solution to [Tanda's pings challenge](https://github.com/TandaHQ/work-samples/tree/master/pings%20(backend) using [HHVM](https://hhvm.com/), [Hack](http://hacklang.org/), [Docker](https://www.docker.com/), and [SQLite](https://www.sqlite.org/).
+This is a solution to [Tanda's pings challenge](https://github.com/TandaHQ/work-samples/tree/master/pings%20(backend)) using [HHVM](https://hhvm.com/), [Hack](http://hacklang.org/), [Docker](https://www.docker.com/), and [SQLite](https://www.sqlite.org/).
 
 For this solution I decided to use HHVM, Hack and SQLite because they were all technologies I hadn't worked with before. The HHVM/Hack ecosystem has always intrigued me as I spend a lot of time writing PHP. I was interested to see how much of my PHP knowledge was transferable to Hack and to get a feel for HHVM, which is [diverging from it's PHP roots](https://hhvm.com/blog/2017/09/18/the-future-of-hhvm.html).
 
