@@ -6,11 +6,17 @@ For this solution I decided to use HHVM, Hack and SQLite because they were all t
 
 ## My solution
 
-One of my goals for this was to set up a workflow with docker which allowed me fully develop and run an application without installing any application dependencies on my machine. I was able to achieve this by changing some [Composer](https://getcomposer.org/) defaults, like changing the dependency installation directory (see `composer.json` and `public/index.php`). By doing this the dependencies were retrieved and installed when building the Docker image, and wouldn't be overridden when mounting the application files for development. This slightly impractical approach came with it's own caveats; such as having to build a new Docker image every time I wanted to install a new package (thankfully for this project that was rarely needed).
+One of my goals for this was to set up a workflow with docker which allowed me fully develop and run an application without installing any application dependencies on my machine. I was able to achieve this by changing some [Composer](https://getcomposer.org/) defaults, like changing the dependency installation directory (see `composer.json` and `public/index.php`). By doing this the dependencies are retrieved and installed when building the Docker image, and won't be overridden when mounting the application files for development. This slightly impractical approach came with it's own caveats; such as having to build a new Docker image every time I wanted to install a new package (thankfully for this project that was rarely needed). This also explains why the `.gitignore` file is missing most of the usual suspects you would find in a PHP project (e.g. `/vendor`).
 
 ## Run solution
 
-all in one script here
+I have included a script which will build a Docker image, run a container, run the `pings.rb` tests, and stop the container. From the application root directory, run:
+
+```bash
+$ ./bin/run.sh
+```
+
+_The `pings.rb` file is not run from a Docker container, so Ruby needs to be installed locally_
 
 ## Development
 
